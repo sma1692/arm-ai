@@ -1,0 +1,39 @@
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A Day in the Life of a Robot: Show a robot navigating through a bustling city, interacting with humans and performing daily tasks.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Underwater Adventure: Create a serene underwater scene featuring colorful fish, coral reefs, and a diver exploring the ocean depths.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Time Travel Journey: Illustrate a character traveling through different historical eras, experiencing key events in each time period.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Fantasy Forest: Depict a magical forest filled with mythical creatures, glowing plants, and a hidden treasure waiting to be discovered.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Space Exploration: Visualize a spaceship traveling through the galaxy, encountering alien planets and life forms along the way.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Cooking Show: Create a fun cooking segment where a chef prepares a unique dish, showcasing the ingredients and cooking techniques.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Sports Highlights: Generate an exciting montage of various sports activities, including soccer, basketball, and extreme sports.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Dreamscape: Illustrate a surreal dream world where gravity doesn't exist, and the landscape is filled with floating islands and whimsical creatures.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Urban Street Art: Show an artist creating a vibrant mural on a city wall, capturing the process and the transformation of the space.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Wildlife Documentary: Create a short documentary-style video showcasing the life of a specific animal in its natural habitat.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Festival Celebration: Depict a lively cultural festival with music, dance, and traditional costumes, highlighting the joy and community spirit.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Haunted House: Generate a spooky scene in a haunted house, complete with ghosts, creaking doors, and eerie sounds.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Fashion Show: Visualize a glamorous fashion show featuring models walking the runway in stunning outfits, with a lively audience.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Magical Potion Brewing: Show a wizard in a mystical laboratory brewing potions, with colorful ingredients and magical effects.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Adventure in the Mountains: Illustrate a group of friends hiking in the mountains, encountering breathtaking views and wildlife.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Robot Dance Party: Create a fun scene where robots are dancing at a party, showcasing their unique moves and personalities.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Art Gallery Opening: Depict an art gallery opening, with guests admiring the artwork and engaging in conversations.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Space Colony: Visualize a futuristic space colony on a distant planet, showcasing advanced technology and daily life.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Nature's Seasons: Create a time-lapse video showing the transition of a landscape through the four seasons, highlighting the beauty of nature.", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "Mythical Creature Encounter: Illustrate a character encountering a mythical creature, such as a dragon or unicorn, in a fantastical setting.", "num_frames": 49, "seed": 2332323}'

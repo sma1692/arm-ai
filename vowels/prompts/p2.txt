@@ -1,0 +1,60 @@
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A cat playing with a ball of yarn in a sunny living room", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A dog running through a field chasing a frisbee", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A child building a sandcastle on the beach", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A family having a picnic in a park with sandwiches and fruit", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person watering plants in a garden filled with flowers", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A chef chopping vegetables in a busy kitchen", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A group of friends riding bicycles down a quiet street", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A toddler taking their first steps in a living room", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A couple dancing together in their kitchen", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person painting a landscape on a canvas outdoors", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A baby laughing while playing with a puppy", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A group of children playing tag in a playground", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person reading a book by a fireplace on a rainy day", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A family decorating a Christmas tree with ornaments", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A gardener planting seeds in a vegetable garden", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person baking cookies in the kitchen", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A child flying a kite on a windy day", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A family watching a movie together on the couch", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person jogging in a park during sunrise", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A group of friends playing board games at a table", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A child drawing with chalk on a sidewalk", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person making a smoothie in a blender", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A family visiting a zoo and looking at animals", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A couple enjoying a sunset on a beach", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person practicing yoga in a peaceful room", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A child feeding ducks at a pond", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A family playing soccer in their backyard", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person taking photos of nature in a forest", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A child opening birthday presents at a party", "num_frames": 49, "seed": 2332323}'
+
+curl -X POST "http://localhost:8000/video/cvx/generate-video"      -H "Content-Type: application/json"      -d '{"prompt": "A person relaxing in a hammock with a book", "num_frames": 49, "seed": 2332323}'
