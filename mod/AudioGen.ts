@@ -7,6 +7,6 @@ if (!AudioGenModule) {
   console.warn("AudioGenModule is null – not linked or wrong name");
 }
 type AudioGenModuleType = {
-  generate(prompt: string): Promise<string>;
+  generate(prompt: string , audioLenSec:number): Promise<string>;
 };
 export const AudioGen = AudioGenModule as AudioGenModuleType;

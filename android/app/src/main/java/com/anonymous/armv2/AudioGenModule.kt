@@ -22,11 +22,11 @@ class AudioGenModule(private val reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun generate(prompt: String ,promise: Promise) {
+  fun generate(prompt: String, audioLenSec: Int, promise: Promise) {
     try {
       val filesDir = reactContext.filesDir
 
-      // ===== 1) Executable from jniLibs =====
+      // 1) Executable from jniLibs
       val libDir = reactContext.applicationInfo.nativeLibraryDir
       val binaryFile = File(libDir, "libaudiogen.so")
 
@@ -35,24 +35,26 @@ class AudioGenModule(private val reactContext: ReactApplicationContext) :
         return
       }
 
-      // ===== 2) Runtime working dir =====
+      // 2) Runtime dir
       val workDir = File(filesDir, "audiogen_runtime")
       if (!workDir.exists()) workDir.mkdirs()
 
-      // ===== 3) Copy models from assets =====
+      // 3) Copy models
       copyAssetOnce("autoencoder_model.tflite", File(workDir, "autoencoder_model.tflite"))
       copyAssetOnce("conditioners_float32.tflite", File(workDir, "conditioners_float32.tflite"))
       copyAssetOnce("dit_model.tflite", File(workDir, "dit_model.tflite"))
       copyAssetOnce("spiece.model", File(workDir, "spiece.model"))
       copyAssetOnce("libtensorflowlite.so", File(workDir, "libtensorflowlite.so"))
 
-      // ===== 4) Run audiogen =====
+      // ✅ 4) COMMAND WITH -l (THIS IS THE KEY FIX)
       val cmd = listOf(
         binaryFile.absolutePath,
         "-m", workDir.absolutePath,
         "-p", prompt,
-        "-t", "4"
+        "-t", "4",
+        "-l", audioLenSec.toString()   // ✅ THIS CONTROLS DURATION
       )
+      android.util.Log.i("AUDIOGEN_CMD", cmd.joinToString(" "))
 
       val processBuilder = ProcessBuilder(cmd)
         .directory(workDir)
@@ -67,13 +69,13 @@ class AudioGenModule(private val reactContext: ReactApplicationContext) :
         return
       }
 
-      // ===== 5) Find generated WAV (FIX FOR YOUR "NO WAV" ERROR) =====
+      // 5) Find generated wav
       val producedWav = workDir
         .listFiles { f -> f.extension == "wav" }
         ?.maxByOrNull { it.lastModified() }
         ?: throw Exception("No wav produced\n$stdout")
 
-      // ===== 6) Save to PUBLIC Music/MyApp folder =====
+      // 6) Save to Music/MyApp
       val resolver = reactContext.contentResolver
       val audioCollection =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
@@ -101,11 +103,11 @@ class AudioGenModule(private val reactContext: ReactApplicationContext) :
         }
       }
 
-      // ===== 7) Return visible URI to React Native =====
       promise.resolve(uri.toString())
 
     } catch (e: Exception) {
       promise.reject("AUDIOGEN_EXCEPTION", e.message, e)
     }
   }
+
 }

@@ -1,60 +1,34 @@
-import React, { useState } from "react";
-import {
-  ActivityIndicator,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { AudioGen } from "../mod/AudioGen"; // <- adjust path as needed
-
+import { router } from "expo-router";
+import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
-  const [prompt, setPrompt] = useState(
-    "warm arpeggios on house beats 120BPM with drums effect"
-  );
-  const [loading, setLoading] = useState(false);
-  const [filePath, setFilePath] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const onGeneratePress = async () => {
-    try {
-      setLoading(true);
-      const uri = await AudioGen.generate(prompt); // content:// URI
-      console.log("Saved to:", uri);
-      setFilePath(uri);
-    } catch (e: any) {
-      console.warn(e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  function handleNext(){
+    router.push('/chat')
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Audio generator</Text>
+      <View>
+        <Text style={styles.logoText}>LOGO</Text>
+      </View>
 
-      <TextInput
-        value={prompt}
-        onChangeText={setPrompt}
-        style={styles.input}
-        placeholder="Enter your prompt…"
-      />
-
-      <Button title="Generate audio" onPress={onGeneratePress} disabled={loading} />
-
-      {loading && <ActivityIndicator style={{ marginTop: 16 }} />}
-
-      {filePath && (
-        <Text style={styles.result}>
-          Saved WAV file at:
-          {"\n"}
-          {filePath}
+      <View style={styles.descContainer}>
+        <Text style={styles.descText}>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
         </Text>
-      )}
+      </View>
 
-      {error && <Text style={styles.error}>{error}</Text>}
+      <Pressable style={styles.button} onPress={handleNext}>
+        <Text style={styles.buttonText}>Begin</Text>
+      </Pressable>
     </View>
   );
 }
@@ -62,28 +36,37 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#020617",
+    justifyContent: "space-around",
     alignItems: "center",
-    padding: 16,
-    gap: 16,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "600",
+  logoText: {
+    fontSize: 54,
+    color: "#38bdf8",
+    fontWeight: "900",
+    letterSpacing: 2,
   },
-  input: {
-    width: "100%",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
+  descContainer: {
+    paddingHorizontal: 10,
   },
-  result: {
-    marginTop: 16,
+  descText: {
+    color: "#cbd5f5",
+    fontSize: 15,
+    lineHeight: 22,
     textAlign: "center",
   },
-  error: {
-    marginTop: 16,
-    color: "red",
-    textAlign: "center",
+  button: {
+    backgroundColor: "#0ea5e9",
+    paddingVertical: 14,
+    paddingHorizontal: 36,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "#020617",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
