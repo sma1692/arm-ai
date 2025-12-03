@@ -2,9 +2,9 @@
 
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system/legacy";
-import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import { ActivityIndicator, Alert, Pressable, StyleSheet, Text, View, } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import { AudioGen } from "../../mod/AudioGen";
 
 type OptionKey = "option1" | "option2" | "option3";
@@ -25,6 +25,7 @@ export default function AudioGenOptions() {
       option2: string;
       option3: string;
     }>();
+    
 
   const [options, setOptions] = useState<
     Record<OptionKey, OptionState>
@@ -33,6 +34,20 @@ export default function AudioGenOptions() {
     option2: { loading: false, uri: null },
     option3: { loading: false, uri: null },
   });
+  const [error , setError]  = useState<string|null>(null)
+
+  useEffect(()=>{
+    if (!h1 && !h2 && !h3 || !option1 && !option2 && !option3){
+      setError('Crash')
+    }
+  },[])
+
+  function handleBack(){
+    router.push('./chat')
+  }
+
+
+
 
   const generate = async (key: OptionKey, prompt: string) => {
     if (!prompt) return;
@@ -94,22 +109,38 @@ export default function AudioGenOptions() {
   const renderOption = (label: string, key: OptionKey, prompt: string) => {
   const state = options[key];
 
+
+
+  if (error) {
+      return (
+        <View style={styles.center}>
+          <Text style={styles.errorTitle}>⚠️ Error</Text>
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity style={styles.retryButton} onPress={handleBack}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
   return (
     <View style={styles.optionCard}>
       <Text style={styles.optionTitle}>{label}</Text>
       <Text style={styles.optionPrompt}>{prompt}</Text>
 
-      <Pressable
-        style={[styles.button , state.loading && styles.buttonDisabled]}
-        disabled={state.loading || !prompt}
-        onPress={() => generate(key, prompt)}
-      >
-        {state.loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.buttonText}>Generate</Text>
-        )}
-      </Pressable>
+      {!state.uri && (
+        <Pressable
+          style={[styles.button , state.loading && styles.buttonDisabled]}
+          disabled={state.loading || !prompt}
+          onPress={() => generate(key, prompt)}
+        >
+          {state.loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={styles.buttonText}>Generate</Text>
+          )}
+        </Pressable>
+      )}
 
       {state.uri && (
         <View style={styles.actions}>
@@ -125,12 +156,13 @@ export default function AudioGenOptions() {
           </Pressable>
         </View>
       )}
+
     </View>
   );
 };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
 
       <View style={styles.descBox}>
         <Text style={styles.descLabel}>Original Prompt</Text>
@@ -140,65 +172,95 @@ export default function AudioGenOptions() {
       {renderOption(h1, "option1", option1)}
       {renderOption(h2, "option2", option2)}
       {renderOption(h3, "option3", option3)}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#E8E6F0",
+    padding: 20,
+  },
+  retryButton: {
+    backgroundColor: "#FF7B9C",
+    paddingHorizontal: 32,
+    paddingVertical: 14,
+    borderRadius: 12,
+  },
+  retryButtonText: {
+    color: "#1B2449",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  errorTitle: {
+    fontSize: 24,
+    color: "#FF7B9C",
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  errorText: {
+    color: "#1B2449",
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 20,
+  },
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#0f172a", 
+    backgroundColor: "#E8E6F0",
   },
   title: {
     fontSize: 26,
     fontWeight: "800",
-    color: "#38bdf8", 
+    color: "#1B2449",
     marginBottom: 6,
     textAlign: "center",
   },
   subtitle: {
     fontSize: 14,
-    color: "#2dd4bf", 
+    color: "#1B2449",
     marginBottom: 22,
     textAlign: "center",
   },
   descBox: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#FFFFFF",
     borderRadius: 14,
     padding: 16,
     marginBottom: 22,
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#FF7B9C",
   },
   descLabel: {
-    color: "#7dd3fc",
+    color: "#FF7B9C",
     fontSize: 14,
     fontWeight: "700",
     marginBottom: 8,
   },
   descText: {
-    color: "#e5e7eb",
+    color: "#1B2449",
     fontSize: 14,
     lineHeight: 22,
   },
   optionCard: {
-    backgroundColor: "#020617",
+    backgroundColor: "#FFFFFF",
     borderRadius: 16,
     padding: 18,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: "#0ea5e9",
+    borderColor: "#FF7B9C",
   },
   optionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#1B2449",
     marginBottom: 6,
   },
   optionPrompt: {
     fontSize: 14,
-    color: "#94a3b8",
+    color: "#1B2449",
     marginBottom: 12,
     lineHeight: 20,
   },
@@ -208,7 +270,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#FF7B9C",
     padding: 12,
     borderRadius: 12,
     alignItems: "center",
@@ -216,22 +278,22 @@ const styles = StyleSheet.create({
   },
   buttonAlt: {
     flex: 1,
-    backgroundColor: "#2dd4bf",
+    backgroundColor: "#FF7B9C",
     padding: 12,
     borderRadius: 12,
     alignItems: "center",
-    justifyContent: "center", 
+    justifyContent: "center",
   },
   buttonDisabled: {
-    backgroundColor: "#475569",
+    backgroundColor: "#F2B8C6",
   },
   buttonText: {
-    color: "#020617",
+    color: "#1B2449",
     fontSize: 16,
     fontWeight: "bold",
   },
   loadingText: {
-    color: "#7dd3fc",
+    color: "#1B2449",
     marginTop: 8,
     fontSize: 14,
     textAlign: "center",

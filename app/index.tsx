@@ -37,13 +37,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#020617",
+    backgroundColor: "#E8E6F0",
     justifyContent: "space-around",
     alignItems: "center",
   },
   logoText: {
     fontSize: 54,
-    color: "#38bdf8",
+    color: "#1B2449",
     fontWeight: "900",
     letterSpacing: 2,
   },
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   descText: {
-    color: "#cbd5f5",
+    color: "#1B2449",
     fontSize: 15,
     lineHeight: 22,
     textAlign: "center",
   },
   button: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#FF7B9C",
     paddingVertical: 14,
     paddingHorizontal: 36,
     borderRadius: 14,
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    color: "#020617",
+    color: "#1B2449",
     fontSize: 16,
     fontWeight: "bold",
   },

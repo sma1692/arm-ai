@@ -1,5 +1,4 @@
-import { chat, loadModel } from '@/mod/LlmMode';
-import { ParsedOptions } from '@/types/types';
+import { chat, loadModel, parsePromptsV2 } from '@/mod/LlmMode';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -27,49 +26,6 @@ const ChatScreen = () => {
     load()
   },[])
 
-  function parsePrompts(logText: string): ParsedOptions {
-  const lines = logText.split('\n');
-  const result: ParsedOptions = {
-    option1: { heading: '', prompt: '' },
-    option2: { heading: '', prompt: '' },
-    option3: { heading: '', prompt: '' }
-  };
-
-  let currentOption: 'option1' | 'option2' | 'option3' | null = null;
-
-  for (const line of lines) {
-    if (line.includes('Option 1:')) {
-      currentOption = 'option1';
-      const headingMatch = line.match(/Option 1:\s*(.+)/);
-      if (headingMatch && headingMatch[1]) {
-        result.option1.heading = headingMatch[1].trim();
-      }
-    } else if (line.includes('Option 2:')) {
-      currentOption = 'option2';
-      const headingMatch = line.match(/Option 2:\s*(.+)/);
-      if (headingMatch && headingMatch[1]) {
-        result.option2.heading = headingMatch[1].trim();
-      }
-    } else if (line.includes('Option 3:')) {
-      currentOption = 'option3';
-      const headingMatch = line.match(/Option 3:\s*(.+)/);
-      if (headingMatch && headingMatch[1]) {
-        result.option3.heading = headingMatch[1].trim();
-      }
-    }
-    
- 
-    if (line.includes('Prompt:') && currentOption) {
-
-      const promptMatch = line.match(/Prompt:\s*"(.+)"/);
-      if (promptMatch && promptMatch[1]) {
-        result[currentOption].prompt = promptMatch[1];
-      }
-    }
-  }
-
-  return result;
-}
 
     async function handleChatSubmit() {
         // running?
@@ -97,19 +53,19 @@ const ChatScreen = () => {
             throw new Error('No Response');
             }
             console.log(res);
-            let p = parsePrompts(res)
+            let p = parsePromptsV2(res)
             console.log(p)
             setResponse(res);
             router.push({
                 pathname: "/genAudio",
                 params:{
                     originalPrompt: input,
-                    h1:p.option1.heading.replaceAll("**",""),
-                    h2:p.option2.heading.replaceAll("**",""),
-                    h3:p.option3.heading.replaceAll("**",""),
-                    option1: p.option1.prompt,
-                    option2: p.option2.prompt,
-                    option3:  p.option3.prompt,
+                    h1:p[0]?.heading,
+                    h2:p[1]?.heading,
+                    h3:p[2]?.heading,
+                    option1: p[0].prompt,
+                    option2: p[1].prompt,
+                    option3:  p[2].prompt,
                 }
             })
         } catch (error) {
@@ -190,58 +146,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#020617",
+    backgroundColor: "#E8E6F0",
   },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#020617",
+    backgroundColor: "#E8E6F0",
     padding: 20,
   },
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#1B2449",
     marginBottom: 6,
     textAlign: "center",
   },
   subtitle: {
     fontSize: 14,
-    color: "#2dd4bf",
+    color: "#1B2449",
     marginBottom: 20,
     textAlign: "center",
   },
   loadingText: {
-    color: "#7dd3fc",
+    color: "#1B2449",
     marginTop: 10,
     fontSize: 16,
   },
   subText: {
-    color: "#94a3b8",
+    color: "#1B2449",
     marginTop: 6,
     fontSize: 14,
   },
   errorTitle: {
     fontSize: 24,
-    color: "#f43f5e",
+    color: "#FF7B9C",
     fontWeight: "bold",
     marginBottom: 10,
   },
   errorText: {
-    color: "#fda4af",
+    color: "#1B2449",
     fontSize: 14,
     textAlign: "center",
     marginBottom: 20,
   },
   retryButton: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#FF7B9C",
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 12,
   },
   retryButtonText: {
-    color: "#020617",
+    color: "#1B2449",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -249,43 +205,45 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   label: {
-    color: "#7dd3fc",
+    color: "#1B2449",
     fontSize: 14,
     fontWeight: "700",
     marginBottom: 8,
   },
   systemInput: {
-    backgroundColor: "#1e293b",
-    color: "#f1f5f9",
+    backgroundColor: "#FFFFFF",
+    color: "#1B2449",
     padding: 14,
     borderRadius: 12,
     fontSize: 14,
     minHeight: 60,
     textAlignVertical: "top",
     borderWidth: 1,
-    borderColor: "#334155",
+    borderColor: "#FF7B9C",
   },
   input: {
-    backgroundColor: "#1e293b",
-    color: "#f1f5f9",
+    backgroundColor: "#FFFFFF",
+    color: "#1B2449",
     padding: 16,
     borderRadius: 12,
     fontSize: 16,
     minHeight: 110,
     textAlignVertical: "top",
+    borderWidth: 1,
+    borderColor: "#FF7B9C",
   },
   button: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#FF7B9C",
     padding: 16,
     borderRadius: 14,
     alignItems: "center",
     marginTop: 15,
   },
   buttonDisabled: {
-    backgroundColor: "#475569",
+    backgroundColor: "#F2B8C6",
   },
   buttonText: {
-    color: "#020617",
+    color: "#1B2449",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -296,14 +254,15 @@ const styles = StyleSheet.create({
   responseLabel: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#38bdf8",
+    color: "#1B2449",
     marginBottom: 10,
   },
   responseText: {
-    color: "#f1f5f9",
+    color: "#1B2449",
     fontSize: 16,
     lineHeight: 24,
   },
 });
+
 
 export default ChatScreen;
