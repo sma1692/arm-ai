@@ -5,22 +5,69 @@ Build and project setup requires custom steps and scripts.
 
 
 # Building ARM Compatible LiteRT Stable Audio open small model
+   ### Install Python3.10
+   - Download and install `pyenv`
+   ```
+   curl -fsSL https://pyenv.run | bash
+   ```
+   - Downlaod and install Python3.10
+
+   ```
+   pyenv install 3.10
+   ```
+   - If build is failed while installing
+   ```
+   sudo apt update
+
+   ```
+   ```
+   # Core build tools (this is the key missing bit)
+   sudo apt install -y build-essential
+
+   # Recommended extra deps for building CPython via pyenv
+   sudo apt install -y \
+   libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev \
+   libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev \
+   libffi-dev liblzma-dev
+   ```
+   - Now try to install Python3.10 using pyenv
+   ```
+   pyenv install 3.10
+   ```
+
+   - On successful install 
+   ```
+   pyenv versions
+   ```
+   ```
+   # Output of the above command will be 
+   system (set by /home/ubuntu/.pyenv/version)
+   3.10.19
+   ```
+  
    ### Create a workspace 
    - Create a separate directory for all the dependencies and repositories 
    ```
-      mkdir <workspace name> 
-      export WORKSPACE=$PWD/my-workspace
+   mkdir <workspace name> 
+   cd <workspace name>
    ```
-   ### Install Python3.10
-   - Download and install `Python3.10`
    ```
-   sudo apt install -y python3.10
+   export WORKSPACE=$PWD
    ```
-   - Make a virtual environment
-
+   - Switch to Python3.10
+   ```
+   pyenv local 3.10
+   ```
+   - Make a python virtual environment
+   
    ```
    python3 -m venv .venv
    ```
+   - Activate virual environment
+   ```
+   source .venv/bin/activate
+   ```
+  
    ### Install CMake
    - CMake is an open-source tool for building software. 
 
@@ -37,10 +84,14 @@ Build and project setup requires custom steps and scripts.
    - Bazel is an open-source build tool which you will use to build LiteRT libraries.
    ```
    cd $WORKSPACE
-   export BAZEL_VERSION=7.4.1
-   wget https://github.com/bazelbuild/bazel/releases/download/{$BAZEL_VERSION}/bazel-{$BAZEL_VERSION}-installer-linux-x86_64.sh
-   sudo bash bazel-7.4.1-installer-linux-x86_64.sh
+   export BAZEL_VERSION=8.4.2
+   wget https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-installer-linux-x86_64.sh
+   sudo bash bazel-8.4.2-installer-linux-x86_64.sh
    export PATH="/usr/local/bin:$PATH"
+   ```
+   - If successful install you would see this 
+   ```
+   Bazel is now installed!
    ```
    - Check if bazel is successfully installed 
    ```
@@ -76,6 +127,11 @@ Build and project setup requires custom steps and scripts.
    - Stable Audio Open Small is an open-source model optimized for generating short audio samples, sound effects, and production elements using text prompts.
    ```
    https://huggingface.co/stabilityai/stable-audio-open-small/tree/main
+   ```
+   - Download the _*model_config.json*__ and __*model.ckpt*__ file to your local system
+   ```
+   scp <model.ckpt path> <your_ssh>:<path of your workspace>
+   scp <model_config.json path> <your_ssh>:<path of your workspace>
    ```
 
    - Download the configuration file __*model_config.json*__ and the model __*model.ckpt*__ to your workspace directory and then check if they exist by running:
@@ -125,6 +181,20 @@ Build and project setup requires custom steps and scripts.
    ```
    python3 ./scripts/export_conditioners.py --model_config "$WORKSPACE/model_config.json" --ckpt_path "$WORKSPACE/model.ckpt"
    ```
+   - If you face errors during this above installation
+   ```
+    pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
+    pip install ml-dtypes
+    pip install --upgrade "transformers[torch]" sentencepiece accelerate
+    pip install onnx onnxscript onnxruntime
+    pip install --upgrade "onnx2tf==1.28.2" \
+                       "tensorflow==2.19.1" \
+                       "tf_keras==2.19.0" \
+                       "ai-edge-litert==1.4.0"
+   ```
+   ```
+    export TRANSFORMERS_NO_TF=1
+   ```
 
    ### Convert DiT and AutoEncoder Submodules
    - To convert the DiT and AutoEncoder submodules, use the Generative API  provided by the ai-edge-torch tools. This enables you to export a generative PyTorch model directly to .tflite using three main steps:
@@ -133,7 +203,11 @@ Build and project setup requires custom steps and scripts.
    ```
    - If you face error running the above command
    ```
-   pip install ai-edge-torch==0.7.0
+   
+   pip install "tensorflow-cpu==2.15.0"
+   pip install --no-cache-dir tf-nightly ai-edge-torch
+   pip install -U "ml_dtypes" "jax[cpu]"
+
    ```
    - Replace the script `export_conditioners.py` and `export_dit_autoencoder.py` the file from `python` from this repo and paste it in the `scripts`
 

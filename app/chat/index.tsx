@@ -10,21 +10,83 @@ const ChatScreen = () => {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [systemPrompt, setSystemPrompt] = useState(``);
-  useEffect(()=>{
-    setLoading(true)
-    async function load(){
-        try{
-            let m = await loadModel()
-            setModel(m)
-            setLoading(false)
-        }catch(error){
-            console.log(error)
-            setLoading(false)
-            setError("Unable to load model")
+  const [loadingMessages, setLoadingMessages] = useState<string>('Loading your creative engine…');
+  // useEffect(()=>{
+  //   setLoading(true)
+  //   async function load(){
+  //       try{
+  //           let m = await loadModel()
+  //           setModel(m)
+  //           setLoading(false)
+  //       }catch(error){
+  //           console.log(error)
+  //           setLoading(false)
+  //           setError("Unable to load model")
+  //       }
+  //   }
+  //   load()
+  // },[])
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setLoadingMessages('Loading your creative engine…');
+
+    let timeouts: ReturnType<typeof setTimeout>[] = [];
+    let cancelled = false;
+
+    async function loadSequence() {
+      try {
+        // 1s delay → add "Spinning up the mood machine…" and start model load
+        await new Promise<void>((resolve) => {
+          const t = setTimeout(() => {
+            if (cancelled) return;
+            setLoadingMessages("Spinning up the mood machine…");
+            resolve();
+          }, 1000);
+          timeouts.push(t);
+        });
+
+        const m = await loadModel();
+        if (cancelled) return;
+
+        setModel(m);
+
+        // Add "Initializing AI models…"
+        setLoadingMessages((prev) => 
+          'Initializing AI models…');
+
+        // 0.5s → "Launching.. "
+        await new Promise<void>((resolve) => {
+          const t = setTimeout(() => {
+            if (cancelled) return;
+            setLoadingMessages((prev) => 'Launching.. ');
+            resolve();
+          }, 500);
+          timeouts.push(t);
+        });
+
+        // Another 0.5s → move to next activity (hide loader)
+        const t = setTimeout(() => {
+          if (cancelled) return;
+          setLoading(false);
+        }, 500);
+        timeouts.push(t);
+      } catch (err) {
+        console.log(err);
+        if (!cancelled) {
+          setError('Unable to load model');
+          setLoading(false);
         }
+      }
     }
-    load()
-  },[])
+
+    loadSequence();
+
+    return () => {
+      cancelled = true;
+      timeouts.forEach(clearTimeout);
+    };
+  }, []);
 
 
     async function handleChatSubmit() {
@@ -91,12 +153,13 @@ const ChatScreen = () => {
 
 
 
-  if (loading) {
+   if (loading) {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" color="#8b5cf6" />
-        <Text style={styles.loadingText}>Loading model...</Text>
-        <Text style={styles.subText}>This may take a minute</Text>
+          <Text style={styles.loadingText}>
+            {loadingMessages}
+          </Text>
       </View>
     );
   }
@@ -115,29 +178,38 @@ const ChatScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>✓ Model loaded successfully</Text>
+      <Text style={styles.subtitle}>Model loaded. Let’s turn words into music.</Text>
 
       <View style={styles.section}>
-        <Text style={styles.label}>What on you mind</Text>
+        <Text style={styles.label}>Tell us what your post feels like</Text>
         <TextInput
           style={styles.input}
           value={input}
           onChangeText={setInput}
-          placeholder="Type your message..."
+          placeholder="Describe your reel, story, or vibe…"
           placeholderTextColor="#999"
           multiline
           editable={!generating}
         />
       </View>
 
-      <TouchableOpacity
+      {!generating?<TouchableOpacity
         style={[styles.button, generating && styles.buttonDisabled]}
         onPress={handleChatSubmit}
         disabled={generating || !input.trim()}>
         <Text style={styles.buttonText}>
-            {generating ? 'Generating...' : 'Generate'}
+            {generating ? 'Generating...' : 'Echo the Mood'}
         </Text>
-    </TouchableOpacity>
+    </TouchableOpacity>:<></>}
+
+    {generating && (
+      <View style={styles.generatingContainer}>
+        <ActivityIndicator size="small" color="#8b5cf6" />
+        <Text style={styles.generatingText}>
+          Hang tight — generating ideas…
+        </Text>
+      </View>
+    )}
     </View>
   );
 };
@@ -146,14 +218,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#E8E6F0",
+    backgroundColor: "#F5F2FF",
   },
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#E8E6F0",
+    backgroundColor: "#F5F2FF",
     padding: 20,
+  },
+  generatingContainer: {
+  marginTop: 14,
+  alignItems: "center",
+  },
+
+  generatingText: {
+    marginTop: 8,
+    fontSize: 13,
+    color: "#1B2449",
+    opacity: 0.8,
   },
   title: {
     fontSize: 26,
