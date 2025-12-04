@@ -459,23 +459,4 @@ npx expo run:android --variant release
 
 
 
-<<<<<<< HEAD
-phi2.py the version which worked
-
-
-
-### Pyenv 
-Used to switch between various versions. 
-FOr this solution 3.10 is required and wont work with 3.12 due to a hard requirement from the package PyWavelets, which is required for stability-audio-tools
-
-
-pyenv install 3.10.4
-pyenv virtualenv 3.10.4 stable-audio-env
-pyenv activate stable-audio-env
-pip install stability-audio-tools
-=======
-
-
-
-
 >>>>>>> 0412432ad9198c2b96ecc57b05ef6459f1d6598c
