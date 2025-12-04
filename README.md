@@ -457,6 +457,3 @@ npx expo run:android --variant release
 ```
 
 
-
-
->>>>>>> 0412432ad9198c2b96ecc57b05ef6459f1d6598c
